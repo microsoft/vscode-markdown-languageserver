@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"module": "CommonJS",
+		"target": "ES2022",
+		"outDir": "./out",
+		"lib": [
+			"ES2020",
+			"ES2021.Promise",
+			"WebWorker"
+		]
+	},
+	"include": [
+		"src/**/*"
+	]
+}
