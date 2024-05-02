@@ -1,33 +1,131 @@
-# Project
+# Markdown Language Server
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+> **❗ Import** This is still in development. While the language server is being used by VS Code, it has not yet been tested with other clients.
 
-As the maintainer of this project, please make a few updates:
+The Markdown language server powers VS Code's built-in markdown support, providing tools for writing and browsing Markdown files. It runs as a separate executable and implements the [language server protocol](https://microsoft.github.io/language-server-protocol/overview).
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+This server uses the [Markdown Language Service](https://github.com/microsoft/vscode-markdown-languageservice) to implement almost all of the language features. You can use that library if you need a library for working with Markdown instead of a full language server.
 
-## Contributing
+## Server capabilities
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+- [Completions](https://microsoft.github.io/language-server-protocol/specification#textDocument_completion) for Markdown links.
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+- [Folding](https://microsoft.github.io/language-server-protocol/specification#textDocument_foldingRange) of Markdown regions, block elements, and header sections.
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+- [Smart selection](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_selectionRange) for inline elements, block elements, and header sections.
 
-## Trademarks
+- [Document Symbols](https://microsoft.github.io/language-server-protocol/specification#textDocument_documentSymbol) for quick navigation to headers in a document.
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
-trademarks or logos is subject to and must follow 
-[Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
-Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
-Any use of third-party trademarks or logos are subject to those third-party's policies.
+- [Workspace Symbols](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#workspace_symbol) for quick navigation to headers in the workspace
+
+- [Document links](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentLink) for making Markdown links in a document clickable.
+
+- [Find all references](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_references) to headers and links across all Markdown files in the workspace.
+
+- [Go to definition](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_definition) from links to headers or link definitions.
+
+- [Rename](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_rename) of headers and links across all Markdown files in the workspace.
+
+- Find all references to a file. Uses a custom `markdown/getReferencesToFileInWorkspace` message.
+
+- [Code Actions](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_codeAction)
+
+  - Organize link definitions source action.
+  - Extract link to definition refactoring.
+
+- Updating links when a file is moved / renamed. Uses a custom `markdown/getEditForFileRenames` message.
+
+- [Pull diagnostics (validation)](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_pullDiagnostics) for links.
+
+## Client requirements
+
+### Initialization options
+
+The client can send the following initialization options to the server:
+
+- `markdownFileExtensions` Array file extensions that should be considered as Markdown. These should not include the leading `.`. For example: `['md', 'mdown', 'markdown']`.
+
+### Settings
+
+Clients may send a `workspace/didChangeConfiguration` notification to notify the server of settings changes.
+The server supports the following settings:
+
+- `markdown`
+  - `suggest`
+    - `paths`
+      - `enabled` — Enable/disable path suggestions.
+
+  - `occurrencesHighlight`
+    - `enabled` — Enable/disable highlighting of link occurrences.
+
+  - `validate`
+    - `enabled` — Enable/disable all validation.
+    - `referenceLinks`
+      - `enabled` — Enable/disable validation of reference links: `[text][ref]`
+    - `fragmentLinks`
+      - `enabled` — Enable/disable validation of links to fragments in the current files: `[text](#head)`
+    - `fileLinks`
+      - `enabled` — Enable/disable validation of links to file in the workspace.
+      - `markdownFragmentLinks` — Enable/disable validation of links to headers in other Markdown files. Use `inherit` to inherit the `fragmentLinks` setting.
+    - `ignoredLinks` — Array of glob patterns for files that should not be validated.
+    - `unusedLinkDefinitions`
+      - `enabled` — Enable/disable validation of unused link definitions.
+    - `duplicateLinkDefinitions`
+      - `enabled` — Enable/disable validation of duplicated link definitions.
+
+### Custom requests
+
+To support all of the features of the language server, the client needs to implement a few custom request types. The definitions of these request types can be found in [`protocol.ts`](./src/protocol.ts)
+
+#### `markdown/parse`
+
+Get the tokens for a Markdown file. Clients are expected to use [Markdown-it](https://github.com/markdown-it/markdown-it) for this.
+
+We require that clients bring their own version of Markdown-it so that they can customize/extend Markdown-it.
+
+#### `markdown/fs/readFile`
+
+Read the contents of a file in the workspace.
+
+#### `markdown/fs/readDirectory`
+
+Read the contents of a directory in the workspace.
+
+#### `markdown/fs/stat`
+
+Check if a given file/directory exists in the workspace.
+
+#### `markdown/fs/watcher/create`
+
+Create a file watcher. This is needed for diagnostics support.
+
+#### `markdown/fs/watcher/delete`
+
+Delete a previously created file watcher.
+
+#### `markdown/findMarkdownFilesInWorkspace`
+
+Get a list of all markdown files in the workspace.
+
+## Contribute
+
+The source code of the Markdown language server can be found in the [VSCode repository](https://github.com/microsoft/vscode) at [extensions/markdown-language-features/server](https://github.com/microsoft/vscode/tree/master/extensions/markdown-language-features/server).
+
+File issues and pull requests in the [VSCode GitHub Issues](https://github.com/microsoft/vscode/issues). See the document [How to Contribute](https://github.com/microsoft/vscode/wiki/How-to-Contribute) on how to build and run from source.
+
+Most of the functionality of the server is located in libraries:
+
+- [vscode-markdown-languageservice](https://github.com/microsoft/vscode-markdown-languageservice) contains the implementation of all features as a reusable library.
+- [vscode-languageserver-node](https://github.com/microsoft/vscode-languageserver-node) contains the implementation of language server for NodeJS.
+
+Help on any of these projects is very welcome.
+
+## Code of Conduct
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+## License
+
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+Licensed under the [MIT](https://github.com/microsoft/vscode/blob/master/LICENSE.txt) License.

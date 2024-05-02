@@ -1,0 +1,38 @@
+{
+  "name": "vscode-markdown-languageserver",
+  "description": "Markdown language server",
+  "version": "0.5.0-alpha.6",
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "engines": {
+    "node": "*"
+  },
+  "main": "./out/node/main",
+  "browser": "./dist/browser/main",
+  "files": [
+    "dist/**/*.js",
+    "out/**/*.js"
+  ],
+  "dependencies": {
+    "@vscode/l10n": "^0.0.11",
+    "vscode-languageserver": "^8.1.0",
+    "vscode-languageserver-textdocument": "^1.0.8",
+    "vscode-languageserver-types": "^3.17.3",
+    "vscode-markdown-languageservice": "^0.5.0-alpha.6",
+    "vscode-uri": "^3.0.7"
+  },
+  "devDependencies": {
+    "@types/node": "18.x",
+    "path-browserify": "^1.0.1",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "webpack-cli": "^5.1.4"
+  },
+  "scripts": {
+    "compile": "tsc -p tsconfig.json",
+    "watch": "tsc -p tsconfig.json --watch",
+    "prepublishOnly": "npm run compile",
+    "compile-web": "webpack-cli --config extension-browser.webpack.config --mode none",
+    "watch-web": "webpack-cli --config extension-browser.webpack.config --mode none --watch --info-verbosity verbose"
+  }
+}
