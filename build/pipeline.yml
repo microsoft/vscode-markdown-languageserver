@@ -13,7 +13,7 @@ resources:
 
 parameters:
   - name: publishPackage
-    displayName: Publish vscode-markdown-languageserver
+    displayName: 🚀 Publish vscode-markdown-languageserver
     type: boolean
     default: false
 
@@ -25,11 +25,10 @@ extends:
         workingDirectory: extensions/markdown-language-features/server
 
         buildSteps:
-          - script: yarn install
+          - script: npm install
             displayName: Install dependencies
 
-          - script: gulp compile-extension:markdown-language-features-server
+          - script: npm run compile
             displayName: Compile
 
         publishPackage: ${{ parameters.publishPackage }}
-        packagePlatform: 'Windows'
