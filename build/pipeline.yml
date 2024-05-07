@@ -22,7 +22,6 @@ extends:
   parameters:
     npmPackages:
       - name: vscode-markdown-languageserver
-        workingDirectory: extensions/markdown-language-features/server
 
         buildSteps:
           - script: npm install
