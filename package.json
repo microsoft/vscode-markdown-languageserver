@@ -7,11 +7,10 @@
   "engines": {
     "node": "*"
   },
-  "main": "./out/node/main",
+  "main": "./dist/node/main",
   "browser": "./dist/browser/main",
   "files": [
-    "dist/**/*.js",
-    "out/**/*.js"
+    "dist/**/*.js"
   ],
   "dependencies": {
     "@vscode/l10n": "^0.0.11",
@@ -31,7 +30,9 @@
   "scripts": {
     "compile": "tsc -p tsconfig.json",
     "watch": "tsc -p tsconfig.json --watch",
-    "prepublishOnly": "npm run compile",
+    "prepublishOnly": "npm run dist && npm run dist-web",
+    "dist": "webpack-cli --config extension.webpack.config --mode production",
+    "dist-web": "webpack-cli --config extension-browser.webpack.config --mode production",
     "compile-web": "webpack-cli --config extension-browser.webpack.config --mode none",
     "watch-web": "webpack-cli --config extension-browser.webpack.config --mode none --watch --info-verbosity verbose"
   }
