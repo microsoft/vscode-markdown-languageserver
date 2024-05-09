@@ -6,6 +6,7 @@
 /** @typedef {import('webpack').Configuration} WebpackConfig **/
 
 const path = require('path');
+const { DefinePlugin } = require('webpack');
 
 module.exports = /**@type {WebpackConfig} */({
 	context: __dirname,
@@ -46,5 +47,12 @@ module.exports = /**@type {WebpackConfig} */({
 	},
 	externals: {
 		'vscode': 'commonjs vscode',
-	}
+	},
+	plugins: [
+		new DefinePlugin({
+			'process.platform': JSON.stringify('web'),
+			'process.env': JSON.stringify({}),
+			'process.env.BROWSER_ENV': JSON.stringify('true')
+		}),
+	]
 });
