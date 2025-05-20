@@ -1,7 +1,7 @@
 {
   "name": "vscode-markdown-languageserver",
   "description": "The language server that powers VS Code's Markdown support",
-  "version": "0.5.0-alpha.10",
+  "version": "0.5.0-alpha.11",
   "author": "Microsoft Corporation",
   "license": "MIT",
   "engines": {

@@ -1,5 +1,8 @@
 # Changelog
 
+# 0.5.0-alpha.11 — May 19, 2025
+- Pick up [Markdown Language Service](https://github.com/microsoft/vscode-markdown-languageservice) 0.5.0-alpha.10. See [CHANGELOG](https://github.com/microsoft/vscode-markdown-languageservice/blob/main/CHANGELOG.md#050-alpha10--may-19-2025) for details.
+
 # 0.5.0-alpha.10 — March 24, 2025
 - Pick up [Markdown Language Service](https://github.com/microsoft/vscode-markdown-languageservice) 0.5.0-alpha.9. See [CHANGELOG](https://github.com/microsoft/vscode-markdown-languageservice/blob/main/CHANGELOG.md#050-alpha9--march-24) for details.
 
