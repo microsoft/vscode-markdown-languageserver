@@ -5,7 +5,7 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "engines": {
-    "node": "*"
+    "node": ">=22"
   },
   "main": "./dist/node/main",
   "browser": "./dist/browser/main",
@@ -21,7 +21,7 @@
     "vscode-uri": "^3.0.7"
   },
   "devDependencies": {
-    "@types/node": "18.x",
+    "@types/node": "22.x",
     "path-browserify": "^1.0.1",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.5",
