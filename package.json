@@ -5,7 +5,7 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "engines": {
-    "node": ">=22"
+    "node": "*"
   },
   "main": "./dist/node/main",
   "browser": "./dist/browser/main",
