@@ -20,6 +20,9 @@
     "vscode-markdown-languageservice": "^0.5.0-alpha.11",
     "vscode-uri": "^3.0.7"
   },
+  "overrides": {
+    "serialize-javascript": "^7.0.0"
+  },
   "devDependencies": {
     "@types/node": "18.x",
     "path-browserify": "^1.0.1",
