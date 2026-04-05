@@ -24,7 +24,7 @@
     "serialize-javascript": "^7.0.0"
   },
   "devDependencies": {
-    "@types/node": "18.x",
+    "@types/node": "22.x",
     "path-browserify": "^1.0.1",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.5",
