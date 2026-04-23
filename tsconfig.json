@@ -1,9 +1,11 @@
 {
 	"compilerOptions": {
 		"strict": true,
-		"module": "CommonJS",
-		"target": "ES2022",
+		"module": "esnext",
+		"target": "es2024",
+		"rootDir": "./src",
 		"outDir": "./out",
+		"skipLibCheck": true,
 		"lib": [
 			"ES2020",
 			"ES2021.Promise",

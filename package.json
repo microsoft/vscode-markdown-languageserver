@@ -14,9 +14,9 @@
   ],
   "dependencies": {
     "@vscode/l10n": "^0.0.11",
-    "vscode-languageserver": "^8.1.0",
-    "vscode-languageserver-textdocument": "^1.0.8",
-    "vscode-languageserver-types": "^3.17.3",
+    "vscode-languageserver": "^9.0.1",
+    "vscode-languageserver-textdocument": "^1.0.12",
+    "vscode-languageserver-types": "^3.17.5",
     "vscode-markdown-languageservice": "^0.5.0-alpha.11",
     "vscode-uri": "^3.0.7"
   },
@@ -24,19 +24,15 @@
     "serialize-javascript": "^7.0.0"
   },
   "devDependencies": {
-    "@types/node": "18.x",
-    "path-browserify": "^1.0.1",
-    "ts-loader": "^9.5.1",
-    "typescript": "^5.4.5",
-    "webpack-cli": "^5.1.4"
+    "@types/node": "22.x",
+    "@typescript/native-preview": "^7.0.0-dev.20260423.1",
+    "esbuild": "^0.28.0",
+    "path-browserify": "^1.0.1"
   },
   "scripts": {
-    "compile": "tsc -p tsconfig.json",
-    "watch": "tsc -p tsconfig.json --watch",
-    "prepublishOnly": "npm run dist && npm run dist-web",
-    "dist": "webpack-cli --config extension.webpack.config --mode production",
-    "dist-web": "webpack-cli --config extension-browser.webpack.config --mode production",
-    "compile-web": "webpack-cli --config extension-browser.webpack.config --mode none",
-    "watch-web": "webpack-cli --config extension-browser.webpack.config --mode none --watch --info-verbosity verbose"
+    "typecheck": "tsgo -p tsconfig.json --noEmit",
+    "compile": "npm run typecheck && node esbuild.mjs",
+    "watch": "tsgo -p tsconfig.json --noEmit --watch & node esbuild.mjs --watch",
+    "prepublishOnly": "npm run typecheck && node esbuild.mjs --minify"
   }
 }
