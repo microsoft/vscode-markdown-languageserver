@@ -1,5 +1,9 @@
 # Changelog
 
+# 0.5.0-alpha.13 — April 23, 2026
+- Pick up [Markdown Language Service](https://github.com/microsoft/vscode-markdown-languageservice) 0.5.0-alpha.12. See [CHANGELOG](https://github.com/microsoft/vscode-markdown-languageservice/blob/main/CHANGELOG.md#050-alpha12--april-23-2026) for details.
+- Switch to using esbuild instead of webpack
+
 # 0.5.0-alpha.12 — July 9, 2025
 - Pick up [Markdown Language Service](https://github.com/microsoft/vscode-markdown-languageservice) 0.5.0-alpha.11. See [CHANGELOG](https://github.com/microsoft/vscode-markdown-languageservice/blob/main/CHANGELOG.md#050-alpha11--july-8-2025) for details.
 
