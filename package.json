@@ -33,6 +33,6 @@
     "typecheck": "tsgo -p tsconfig.json --noEmit",
     "compile": "npm run typecheck && node esbuild.mjs",
     "watch": "tsgo -p tsconfig.json --noEmit --watch & node esbuild.mjs --watch",
-    "prepublishOnly": "npm run typecheck && node esbuild.mjs --minify"
+    "prepublishOnly": "npm run typecheck && node esbuild.mjs"
   }
 }

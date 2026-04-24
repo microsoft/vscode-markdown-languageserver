@@ -3,7 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Connection, Disposable, FullDocumentDiagnosticReport, TextDocuments, UnchangedDocumentDiagnosticReport } from 'vscode-languageserver';
+import { Connection, TextDocuments } from 'vscode-languageserver';
+import { Disposable, FullDocumentDiagnosticReport, UnchangedDocumentDiagnosticReport } from 'vscode-languageserver-protocol';
 import * as md from 'vscode-markdown-languageservice';
 import { URI } from 'vscode-uri';
 import { ConfigurationManager, ValidateEnabled } from '../configuration';

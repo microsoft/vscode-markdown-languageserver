@@ -3,7 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Connection, Emitter } from 'vscode-languageserver';
+import { Connection } from 'vscode-languageserver';
+import { Emitter } from 'vscode-languageserver-protocol';
 import { Disposable } from './util/dispose';
 
 export type ValidateEnabled = 'ignore' | 'warning' | 'error' | 'hint';

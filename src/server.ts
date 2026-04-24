@@ -4,7 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as l10n from '@vscode/l10n';
-import { CancellationToken, CompletionRegistrationOptions, CompletionRequest, Connection, Disposable, DocumentHighlightRegistrationOptions, DocumentHighlightRequest, InitializeParams, InitializeResult, NotebookDocuments, ResponseError, TextDocuments } from 'vscode-languageserver';
+import { Connection, NotebookDocuments, TextDocuments } from 'vscode-languageserver';
+import { CancellationToken, CompletionRegistrationOptions, CompletionRequest, Disposable, DocumentHighlightRegistrationOptions, DocumentHighlightRequest, FileRename, InitializeParams, InitializeResult, ResponseError } from 'vscode-languageserver-protocol';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import * as lsp from 'vscode-languageserver-types';
 import * as md from 'vscode-markdown-languageservice';
@@ -266,7 +267,7 @@ export async function startServer(connection: Connection, serverConfig: {
 		return mdLs!.getFileReferences(URI.parse(params.uri), token);
 	}));
 
-	connection.onRequest(protocol.getEditForFileRenames, (async (params, token: CancellationToken) => {
+	connection.onRequest(protocol.getEditForFileRenames, (async (params: FileRename[], token: CancellationToken) => {
 		const result = await mdLs!.getRenameFilesInWorkspaceEdit(params.map(x => ({ oldUri: URI.parse(x.oldUri), newUri: URI.parse(x.newUri) })), token);
 		if (!result) {
 			return result;
@@ -278,7 +279,7 @@ export async function startServer(connection: Connection, serverConfig: {
 		};
 	}));
 
-	connection.onRequest(protocol.prepareUpdatePastedLinks, (async (params, token: CancellationToken) => {
+	connection.onRequest(protocol.prepareUpdatePastedLinks, (async (params: { uri: string; ranges: lsp.Range[] }, token: CancellationToken) => {
 		const document = documents.get(params.uri);
 		if (!document) {
 			return undefined;
@@ -287,7 +288,7 @@ export async function startServer(connection: Connection, serverConfig: {
 		return mdLs!.prepareUpdatePastedLinks(document, params.ranges, token);
 	}));
 
-	connection.onRequest(protocol.getUpdatePastedLinksEdit, (async (params, token: CancellationToken) => {
+	connection.onRequest(protocol.getUpdatePastedLinksEdit, (async (params: { pasteIntoDoc: string; metadata: string; edits: lsp.TextEdit[] }, token: CancellationToken) => {
 		const document = documents.get(params.pasteIntoDoc);
 		if (!document) {
 			return undefined;
@@ -298,7 +299,7 @@ export async function startServer(connection: Connection, serverConfig: {
 		return mdLs!.getUpdatePastedLinksEdit(document, edits, params.metadata, token);
 	}));
 
-	connection.onRequest(protocol.resolveLinkTarget, (async (params, token: CancellationToken) => {
+	connection.onRequest(protocol.resolveLinkTarget, (async (params: { linkText: string; uri: string }, token: CancellationToken) => {
 		return mdLs!.resolveLinkTarget(params.linkText, URI.parse(params.uri), token);
 	}));
 

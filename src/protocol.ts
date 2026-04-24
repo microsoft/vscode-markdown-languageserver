@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { FileRename, RequestType } from 'vscode-languageserver';
+import { FileRename, RequestType } from 'vscode-languageserver-protocol';
 import type * as lsp from 'vscode-languageserver-types';
 import type * as md from 'vscode-markdown-languageservice';
 

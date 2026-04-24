@@ -5,45 +5,43 @@
 // @ts-check
 import * as esbuild from 'esbuild';
 import { createRequire } from 'node:module';
+import { globSync } from 'node:fs';
 import path from 'node:path';
 
 const require = createRequire(import.meta.url);
 
 const watch = process.argv.includes('--watch');
-const minify = process.argv.includes('--minify');
 
 // Resolve to the top-level copy to avoid duplicate nested copies
 const l10nPath = path.dirname(require.resolve('@vscode/l10n/package.json'));
 
 /** @type {esbuild.BuildOptions} */
-const commonConfig = {
-    bundle: true,
+const baseConfig = {
     target: 'es2022',
     sourcemap: true,
-    minify,
-    external: ['vscode'],
-    alias: {
-        '@vscode/l10n': l10nPath,
-    },
 };
 
 /** @type {esbuild.BuildOptions} */
 const nodeConfig = {
-    ...commonConfig,
-    entryPoints: ['src/node/workerMain.ts'],
-    outfile: 'dist/node/workerMain.js',
+    ...baseConfig,
+    entryPoints: globSync('src/**/*.ts', { exclude: ['src/browser/**'] }),
+    outdir: 'dist',
+    outbase: 'src',
+    bundle: false,
     format: 'cjs',
     platform: 'node',
 };
 
 /** @type {esbuild.BuildOptions} */
 const browserConfig = {
-    ...commonConfig,
+    ...baseConfig,
     entryPoints: ['src/browser/workerMain.ts'],
     outfile: 'dist/browser/workerMain.js',
+    bundle: true,
     format: 'iife',
     globalName: 'serverExportVar',
     platform: 'browser',
+    external: ['vscode'],
     define: {
         'process.platform': JSON.stringify('web'),
         'process.env': JSON.stringify({}),
@@ -53,7 +51,7 @@ const browserConfig = {
         '.wasm': 'binary',
     },
     alias: {
-        ...commonConfig.alias,
+        '@vscode/l10n': l10nPath,
         'path': 'path-browserify',
     },
 };

@@ -27,10 +27,7 @@ extends:
           - script: npm install
             displayName: Install dependencies
 
-          - script: npm run dist
-            displayName: Compile Desktop
-
-          - script: npm run dist-web
-            displayName: Compile Web
+          - script: npm run compile
+            displayName: Compile
 
         publishPackage: ${{ parameters.publishPackage }}
