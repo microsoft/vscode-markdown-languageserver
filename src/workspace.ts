@@ -3,7 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { Connection, Emitter, FileChangeType, NotebookDocuments, Position, Range, TextDocuments } from 'vscode-languageserver';
+import { Connection, NotebookDocuments, TextDocuments } from 'vscode-languageserver';
+import { Emitter, FileChangeType, Position, Range } from 'vscode-languageserver-protocol';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import * as md from 'vscode-markdown-languageservice';
 import { URI } from 'vscode-uri';
@@ -286,7 +287,7 @@ export class VsCodeClientWorkspace implements md.IWorkspaceWithWatching {
 		// And then add files on disk
 		const maxConcurrent = 20;
 		const limiter = new Limiter<md.ITextDocument | undefined>(maxConcurrent);
-		const resources = await this.connection.sendRequest(protocol.findMarkdownFilesInWorkspace, {});
+		const resources: string[] = await this.connection.sendRequest(protocol.findMarkdownFilesInWorkspace, {});
 		await Promise.all(resources.map(strResource => {
 			return limiter.queue(async () => {
 				const resource = URI.parse(strResource);
@@ -337,7 +338,7 @@ export class VsCodeClientWorkspace implements md.IWorkspaceWithWatching {
 		}
 
 		try {
-			const response = await this.connection.sendRequest(protocol.fs_readFile, { uri: resource.toString() });
+			const response: number[] = await this.connection.sendRequest(protocol.fs_readFile, { uri: resource.toString() });
 			// TODO: LSP doesn't seem to handle Array buffers well
 			const bytes = new Uint8Array(response);
 
@@ -366,7 +367,7 @@ export class VsCodeClientWorkspace implements md.IWorkspaceWithWatching {
 		if (this.documents.get(uri)) {
 			return { isDirectory: false };
 		}
-		const fsResult = await this.connection.sendRequest(protocol.fs_stat, { uri });
+		const fsResult: md.FileStat | undefined = await this.connection.sendRequest(protocol.fs_stat, { uri });
 		return fsResult ?? undefined; // Force convert null to undefined
 	}
 
