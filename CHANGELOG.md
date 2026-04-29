@@ -1,5 +1,8 @@
 # Changelog
 
+# 0.5.0-alpha.14 — April 29, 2026
+- Switch back to shipping bundled server file
+
 # 0.5.0-alpha.13 — April 23, 2026
 - Pick up [Markdown Language Service](https://github.com/microsoft/vscode-markdown-languageservice) 0.5.0-alpha.12. See [CHANGELOG](https://github.com/microsoft/vscode-markdown-languageservice/blob/main/CHANGELOG.md#050-alpha12--april-23-2026) for details.
 - Switch to using esbuild instead of webpack

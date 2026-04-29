@@ -24,10 +24,10 @@ const baseConfig = {
 /** @type {esbuild.BuildOptions} */
 const nodeConfig = {
     ...baseConfig,
-    entryPoints: globSync('src/**/*.ts', { exclude: ['src/browser/**'] }),
-    outdir: 'dist',
+    entryPoints: ['src/node/workerMain.ts'],
+    outfile: 'dist/node/workerMain.js',
     outbase: 'src',
-    bundle: false,
+    bundle: true,
     format: 'cjs',
     platform: 'node',
 };
