@@ -1,5 +1,8 @@
 # Changelog
 
+# 0.5.0-alpha.16 — June 2, 2026
+- Fix so clients can use correct lsp types.
+
 # 0.5.0-alpha.15 — May 1, 2026
 - Pick up [Markdown Language Service](https://github.com/microsoft/vscode-markdown-languageservice) 0.5.0-alpha.13. See [CHANGELOG](https://github.com/microsoft/vscode-markdown-languageservice/blob/main/CHANGELOG.md#050-alpha13--april-30-2026) for details.
 - Switched to ship server as esm
