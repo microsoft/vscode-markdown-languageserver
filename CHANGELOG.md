@@ -1,5 +1,9 @@
 # Changelog
 
+
+# 0.5.0 — June 9, 2026
+- Pick up [Markdown Language Service](https://github.com/microsoft/vscode-markdown-languageservice) 0.5.0.  See [CHANGELOG](https://github.com/microsoft/vscode-markdown-languageservice/blob/main/CHANGELOG.md#050-june-9-2026) for details.
+
 # 0.5.0-alpha.16 — June 2, 2026
 - Fix so clients can use correct lsp types.
 
