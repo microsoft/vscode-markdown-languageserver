@@ -84,6 +84,7 @@ const browserConfig = {
     alias: {
         '@vscode/l10n': l10nPath,
         'path': 'path-browserify',
+        'node:path': 'path-browserify',
     },
 };
 
