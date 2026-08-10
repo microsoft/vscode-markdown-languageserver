@@ -3,9 +3,9 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
-import { LsConfiguration } from 'vscode-markdown-languageservice';
+import type { LsConfiguration } from 'vscode-markdown-languageservice';
 
-export { LsConfiguration };
+export type { LsConfiguration };
 
 const defaultConfig: LsConfiguration = {
 	markdownFileExtensions: ['md'],

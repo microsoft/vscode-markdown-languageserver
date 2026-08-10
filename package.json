@@ -25,15 +25,19 @@
     "serialize-javascript": "^7.0.0"
   },
   "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
     "@types/node": "22.x",
     "@typescript/native-preview": "^7.0.0-dev.20260423.1",
     "esbuild": "^0.28.0",
-    "path-browserify": "^1.0.1"
+    "markdown-it": "^15.0.0",
+    "path-browserify": "^1.0.1",
+    "tsx": "^4.23.11"
   },
   "scripts": {
     "typecheck": "tsgo -p tsconfig.json --noEmit",
     "compile": "npm run typecheck && node esbuild.mjs",
     "watch": "tsgo -p tsconfig.json --noEmit --watch & node esbuild.mjs --watch",
-    "prepublishOnly": "npm run typecheck && node esbuild.mjs"
+    "prepublishOnly": "npm run typecheck && node esbuild.mjs",
+    "test": "node --import ./src/test/register.mjs --import tsx --test src/test/**/*.test.ts"
   }
 }
