@@ -344,9 +344,14 @@ export class VsCodeClientWorkspace implements md.IWorkspaceWithWatching {
 
 			// We assume that markdown is in UTF-8
 			const text = this._utf8Decoder.decode(bytes);
-			const doc = new VsCodeDocument(resource.toString(), {
-				onDiskDoc: TextDocument.create(resource.toString(), 'markdown', 0, text)
-			});
+			const onDiskDoc = TextDocument.create(resource.toString(), 'markdown', 0, text);
+			// Keep an existing entry so a late file event cannot drop the open in-memory document.
+			const existing = this._documentCache.get(resource);
+			if (existing) {
+				existing.setOnDiskDoc(onDiskDoc);
+				return existing;
+			}
+			const doc = new VsCodeDocument(resource.toString(), { onDiskDoc });
 			this._documentCache.set(resource, doc);
 			return doc;
 		} catch (e) {
