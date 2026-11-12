@@ -1,6 +1,9 @@
 # Changelog
 
 
+# 0.5.1 — November 12, 2026
+- Keep the in-memory document when a watched file changes on disk, so open documents are no longer validated against stale disk contents ([#26](https://github.com/microsoft/vscode-markdown-languageserver/pull/26)).
+
 # 0.5.0 — June 9, 2026
 - Pick up [Markdown Language Service](https://github.com/microsoft/vscode-markdown-languageservice) 0.5.0.  See [CHANGELOG](https://github.com/microsoft/vscode-markdown-languageservice/blob/main/CHANGELOG.md#050-june-9-2026) for details.
 
