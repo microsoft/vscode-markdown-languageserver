@@ -31,6 +31,7 @@
     "path-browserify": "^1.0.1"
   },
   "scripts": {
+    "test": "node esbuild.mjs --test && node --test \"out/test/*.test.js\"",
     "typecheck": "tsgo -p tsconfig.json --noEmit",
     "compile": "npm run typecheck && node esbuild.mjs",
     "watch": "tsgo -p tsconfig.json --noEmit --watch & node esbuild.mjs --watch",

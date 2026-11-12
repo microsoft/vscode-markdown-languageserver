@@ -89,7 +89,15 @@ const browserConfig = {
 };
 
 async function main() {
-    if (watch) {
+    if (process.argv.includes('--test')) {
+        await esbuild.build({
+            ...nodeConfig,
+            entryPoints: globSync('src/test/**/*.test.ts'),
+            outfile: undefined,
+            outdir: 'out/test',
+            outbase: 'src/test',
+        });
+    } else if (watch) {
         const [nodeCtx, browserCtx] = await Promise.all([
             esbuild.context(nodeConfig),
             esbuild.context(browserConfig),

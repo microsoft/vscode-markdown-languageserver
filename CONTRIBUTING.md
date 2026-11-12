@@ -31,6 +31,10 @@ To rebuild automatically as you make changes:
 npm run watch
 ```
 
+### Testing
+
+Run the server's regression tests with `npm test`. The document workspace trusts the client's synchronization selectors instead of restricting synchronized documents to the `markdown` language ID. Clients should synchronize only documents intended for Markdown language features, including any Markdown language variants and selected notebook cells.
+
 ### Testing in VS Code
 
 You can test your local changes against the VS Code source by using [`npm link`](https://docs.npmjs.com/cli/v10/commands/npm-link).
