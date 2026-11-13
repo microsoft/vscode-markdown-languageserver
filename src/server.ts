@@ -294,9 +294,7 @@ export async function startServer(connection: Connection, serverConfig: {
 			return undefined;
 		}
 
-		// TODO: Figure out why range types are lying
-		const edits = params.edits.map((edit: any) => lsp.TextEdit.replace(lsp.Range.create(edit.range[0].line, edit.range[0].character, edit.range[1].line, edit.range[1].character), edit.newText));
-		return mdLs!.getUpdatePastedLinksEdit(document, edits, params.metadata, token);
+		return mdLs!.getUpdatePastedLinksEdit(document, params.edits, params.metadata, token);
 	}));
 
 	connection.onRequest(protocol.resolveLinkTarget, (async (params: { linkText: string; uri: string }, token: CancellationToken) => {
