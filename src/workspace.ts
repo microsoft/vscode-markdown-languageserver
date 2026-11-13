@@ -10,7 +10,7 @@ import * as md from 'vscode-markdown-languageservice';
 import { URI } from 'vscode-uri';
 import { LsConfiguration } from './config';
 import * as protocol from './protocol';
-import { isMarkdownFile, looksLikeMarkdownPath } from './util/file';
+import { looksLikeMarkdownPath } from './util/file';
 import { Limiter } from './util/limiter';
 import { ResourceMap } from './util/resourceMap';
 import { Schemes } from './util/schemes';
@@ -427,7 +427,8 @@ export class VsCodeClientWorkspace implements md.IWorkspaceWithWatching {
 	}
 
 	private isRelevantMarkdownDocument(doc: TextDocument) {
-		return isMarkdownFile(doc) && URI.parse(doc.uri).scheme !== 'vscode-bulkeditpreview';
+		// The client selects which documents to synchronize, including Markdown language variants.
+		return URI.parse(doc.uri).scheme !== 'vscode-bulkeditpreview';
 	}
 
 	private doDeleteDocument(uri: URI) {
